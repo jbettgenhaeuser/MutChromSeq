@@ -28,8 +28,8 @@ public class Pileup2XML {
 								"-o <output.xml>\t\t\tThe output file in xml format\n"+
 								"-w\t\t\t\tThis pileup belongs to the wildtype\n"+
 								"-c <int>\t\t\tminimum coverage to report a SNP\n"+
-								"-a\n"+
-								"-f";
+								"-a\t reference allele frequency\n"+
+								"-f\t fasta file of reference";
 								
 
 		
