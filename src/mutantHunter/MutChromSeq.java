@@ -791,7 +791,7 @@ public class MutChromSeq {
 			for(Iterator<String> iterator = mutChromSeq.mutantLines.iterator(); iterator.hasNext();){
 				String s = iterator.next();
 				if(!s.equalsIgnoreCase(MutChromSeq.wildtype)){
-					v.add(iterator.next());
+					v.add(s);
 				}
 				
 			}
