@@ -1,10 +1,10 @@
-#MutChromSeq
+# MutChromSeq
 
-##About
+## About
 **MutChromSeq** is a method to clone genes in plants. Prerequisites are that the gene must be related to a specific phenotype and that chromosome flow sorting is established in the species.
 In a nutshell, you do an EMS mutagenesis screen of your wildtype and look for mutants that have lost the phenotype related to your gene. You need at least 5 or 6 independent mutants. If you have been working on that gene for a while, you most problably know on which chromosome it is. Otherwise find out. Flow sort chromosomes of your wildtype and mutants. Sequence amplified DNA from your chromosomes on Illumina. You need about a HiSeq2000 lane per chromosome. A denovo assembly of the wildtype data will be used as reference. You map the mutants against that reference and will find one or very few genes that have a mutation in every of your mutants. Here you find the pipeline and scripts for the analysis of the data.
 
-##Prerequisites
+## Prerequisites
 
 ### JRE 1.6
 Make sure you have the Java Runtime Environments 1.6 or higher. Download from [http://java.com](http://java.com)
@@ -21,10 +21,10 @@ Download Blast+ from [NCBI](http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE
 ### A *denovo* assembly software.
 Use your favourite assembler to assemble the rawdata of your wildtype. Note that the wrong toold might result in contigs representing a consensus of two or more NLRs. For Illumina data we had nice results with [CLC assembly cell](http://www.clcbio.com/products/clc-assembly-cell/) and default parameters. Please note that this one is a comercial software. Feel free to experiment with free software.
 
-###RepeatMasker
+### RepeatMasker
 Download from [http://www.repeatmasker.org/](http://www.repeatmasker.org/). If you are working on Triticeae, we recommend to use the external library [TREP](http://wheat.pw.usda.gov/ITMI/Repeats/) for masking
 
-###MutChromSeq
+### MutChromSeq
 Download the jar file from the release of this repository
 
 
@@ -55,6 +55,8 @@ Mask your assembly. We are not interested in mutations in repeat elements. This 
 
 Map (cleaned) rawdata of your wild type and the mutants against the denovo assembly. We reccomend using [bwa](http://bio-bwa.sourceforge.net/) and [samtools](http://samtools.sourceforge.net/).
 
+**The filename of the pileup file will be used internally as an identifier. Please make sure this filename is unique for each mutant. E.g. pileup-m1.txt, pileup-m2.txt ...**
+
 ```
 bwa index assembly.fasta
 bwa aln assembly.fasta read1.fastq > read1.aln
@@ -65,8 +67,7 @@ samtools sort raw.bam sorted
 samtools rmdup sorted.bam rmdup.bam
 samtools index rmdup.bam
 samtools faidx assembly.fasta
-samtools mpileup -f assembly.fasta -BQ0 rmdup.bam > pileup.txt
-
+samtools mpileup -f assembly.fasta -BQ0 rmdup.bam > pileup.txt 
 ```
 
 ## MutChromSeq pipeline
