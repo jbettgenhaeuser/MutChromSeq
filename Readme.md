@@ -96,6 +96,8 @@ parameter | argument        | description
 
 This will provide the candidate contigs.  You will have to allocate a bit of memory to the java vm. To add e.g. 16 Gb or RAM you would write `java -Xmx16000M -jar ...`
 
+The `-s` parameter allows to load a list of identifiers that refer to sequences in the reference assembly. Further processing is only done for those sequences. If `-s` is ommitted, the entire set of sequences is used. The argument to `-s` is a either text file containing one identifier per line or a TSV file where the first column contains identifiers.
+
 ```
 java -jar MutChromSeq.jar -w wildtype.pileup.xml -m mutant1.pileup.xml mutant2.plieup.xml [...] -o output.txt -n 6 -c 10 -a 0.01 -z 2 
 ```
@@ -108,6 +110,7 @@ parameter | argument        | description
 **-c**    | *int*           | Minimum coverage for position to be regarded. Default is 10
 **-n**    | *int*           | Minimum number of mutants to report a contig. Default is 2
 **-z**    | *int*           | Number mutant lines that are allowed to have SNV in same position. Default is 2
+**-s**    | *Str*           | A file with a list of sequence identifiers
 
 
 

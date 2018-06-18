@@ -47,13 +47,13 @@ import support.MPileupLine;
 
 /**
  * 
- * @version 3.0
+ * @version 3.1
  * @author steuernb
  *
  */
 public class MutChromSeq {
 
-	public static final double version = 3.0;
+	public static final double version = 4;
 	public static final String wildtype = "wildtype";
 	
 	Hashtable<String, TargetContig> targetContigs;
@@ -145,6 +145,27 @@ public class MutChromSeq {
 	
 	
 	
+	public void filterContigList(File contigList)throws IOException{
+		HashSet<String> contigs = new HashSet<String>();
+		BufferedReader in = new BufferedReader(new FileReader(contigList));
+
+		for (String inputline = in.readLine(); inputline != null; inputline = in.readLine()) {
+			String[] split = inputline.split("\t");
+			contigs.add(split[0].trim());
+		}
+
+		in.close();
+		
+		
+		Hashtable<String,TargetContig> h = new Hashtable<String,TargetContig>();
+		for(Enumeration<String> myenum = targetContigs.keys(); myenum.hasMoreElements();){
+			String key = myenum.nextElement();
+			if(contigs.contains(key)){
+				h.put(key, targetContigs.get(key));
+			}
+		}
+		this.targetContigs = h;
+	}
 	
 	
 	
@@ -787,6 +808,16 @@ public class MutChromSeq {
 				mutChromSeq.addXMLQuick(new File(mutant),false);
 			}
 			
+			if(cli.hasOption("s")){
+				File contigList = new File(cli.getArg("s"));
+				if(!contigList.exists()){
+					throw new CLIParseException("File " + contigList.getName() + " does not exist. Aborting.");
+				}
+				
+				mutChromSeq.filterContigList(contigList);
+			}
+			
+			
 			Vector<String> v = new Vector<String>();
 			for(Iterator<String> iterator = mutChromSeq.mutantLines.iterator(); iterator.hasNext();){
 				String s = iterator.next();
@@ -795,6 +826,9 @@ public class MutChromSeq {
 				}
 				
 			}
+			
+			
+			
 			
 			
 			int minCoverageToConsiderSNP = 15;
@@ -867,7 +901,8 @@ public class MutChromSeq {
 					   "-n <int>\t\t\tMinimum number of mutants to report a contig. Default is 2\n"+
 					   "-c <int>\t\t\tMininum coverage for mappings to be regarded. Default is 10\n"+
 					   "-a <float>\t\t\tMaximum reference allele frequency to consider a SNP. Default is 0.01\n"+
-					   "-z <int>\t\t\tNumber mutant lines that are allowed to have SNV in same position. Default is 2\n";
+					   "-z <int>\t\t\tNumber mutant lines that are allowed to have SNV in same position. Default is 2\n"+
+					   "-s <contiglist.txt>\t\tRestrict analysis to subset of contigs listed in file contiglist.txt";
 			
 			System.err.println(s);
 			
