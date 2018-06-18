@@ -47,13 +47,13 @@ import support.MPileupLine;
 
 /**
  * 
- * @version 3.1
+ * @version 2
  * @author steuernb
  *
  */
 public class MutChromSeq {
 
-	public static final double version = 4;
+	public static final double version = 2;
 	public static final String wildtype = "wildtype";
 	
 	Hashtable<String, TargetContig> targetContigs;
